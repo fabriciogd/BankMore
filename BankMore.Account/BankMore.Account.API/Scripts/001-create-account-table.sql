@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS Accounts (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    NumberAccount INTEGER NOT NULL,
+    NationalDocument TEXT NOT NULL,
+    Name TEXT NOT NULL,
+    IsActive BOOLEAN NOT NULL,
+    Password TEXT NOT NULL,
+    Salt TEXT NOT NULL
+);

@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS Transfers (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    SouceCheckingAccountId INTEGER NOT NULL,
+    DestinationCheckingAccountId INTEGER NOT NULL,
+    Date TEXT NOT NULL,
+    Value REAL NOT NULL
+);

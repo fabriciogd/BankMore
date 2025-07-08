@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS Movements (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    CheckingAccountId INTEGER NOT NULL,
+    Date TEXT NOT NULL,
+    Type TEXT NOT NULL CHECK (Type IN ('C', 'D')),
+    Value DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (CheckingAccountId) REFERENCES Accounts(Id)
+);

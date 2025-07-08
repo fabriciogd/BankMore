@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankMore.Account.API", "BankMore.Account.API\BankMore.Account.API.csproj", "{8925385D-9C60-4B9F-9310-46D84A86B06F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankMore.Account.Application", "BankMore.Account.Application\BankMore.Account.Application.csproj", "{EAC1FC3E-8A38-4157-8705-4A00280C4CD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankMore.Account.Domain", "BankMore.Account.Domain\BankMore.Account.Domain.csproj", "{D248BFD5-C033-4F6D-B5D3-C25282457D6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankMore.Account.Infraestructure", "BankMore.Account.Infraestructure\BankMore.Account.Infraestructure.csproj", "{D3683C3D-F168-42E5-96D8-0830AAD3F2C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankMore.Account.Application.Tests", "BankMore.Account.Application.Tests\BankMore.Account.Application.Tests.csproj", "{EB48BB48-2555-48E3-9FCA-D101827BFEFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankMore.Account.API.Tests", "BankMore.Account.API.Tests\BankMore.Account.API.Tests.csproj", "{76235B0A-C225-44EA-9372-AAAF0BD33D78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8925385D-9C60-4B9F-9310-46D84A86B06F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8925385D-9C60-4B9F-9310-46D84A86B06F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8925385D-9C60-4B9F-9310-46D84A86B06F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8925385D-9C60-4B9F-9310-46D84A86B06F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAC1FC3E-8A38-4157-8705-4A00280C4CD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAC1FC3E-8A38-4157-8705-4A00280C4CD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAC1FC3E-8A38-4157-8705-4A00280C4CD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAC1FC3E-8A38-4157-8705-4A00280C4CD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D248BFD5-C033-4F6D-B5D3-C25282457D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D248BFD5-C033-4F6D-B5D3-C25282457D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D248BFD5-C033-4F6D-B5D3-C25282457D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D248BFD5-C033-4F6D-B5D3-C25282457D6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3683C3D-F168-42E5-96D8-0830AAD3F2C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3683C3D-F168-42E5-96D8-0830AAD3F2C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3683C3D-F168-42E5-96D8-0830AAD3F2C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3683C3D-F168-42E5-96D8-0830AAD3F2C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB48BB48-2555-48E3-9FCA-D101827BFEFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB48BB48-2555-48E3-9FCA-D101827BFEFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB48BB48-2555-48E3-9FCA-D101827BFEFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB48BB48-2555-48E3-9FCA-D101827BFEFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76235B0A-C225-44EA-9372-AAAF0BD33D78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76235B0A-C225-44EA-9372-AAAF0BD33D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76235B0A-C225-44EA-9372-AAAF0BD33D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76235B0A-C225-44EA-9372-AAAF0BD33D78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2E30B9D-4DB7-43A0-AAA0-088679F39C0B}
+	EndGlobalSection
+EndGlobal

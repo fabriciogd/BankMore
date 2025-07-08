@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BankMore.Core\BankMore.Core.Application\BankMore.Core.Application.csproj" />
+    <ProjectReference Include="..\..\BankMore.Core\BankMore.Core.Domain\BankMore.Core.Domain.csproj" />
+    <ProjectReference Include="..\BankMore.Transfer.Domain\BankMore.Transfer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

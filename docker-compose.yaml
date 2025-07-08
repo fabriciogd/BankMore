@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  account-api:
+    build:
+      context: .
+      dockerfile: ./BankMore.Account/Dockerfile
+    container_name: bankmore-account-api
+    ports:
+      - "8001:8080"
+      - "8011:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  transfer-api:
+    build:
+      context: .
+      dockerfile: ./BankMore.Transfer/Dockerfile
+    container_name: bankmore-transfer-api
+    ports:
+      - "8002:8080"
+      - "8012:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production

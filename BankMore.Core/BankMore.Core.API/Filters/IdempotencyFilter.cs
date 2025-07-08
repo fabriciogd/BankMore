@@ -12,7 +12,7 @@ public class IdempotencyFilter(IIdempotencyService _idempotencyService) : IAsync
     {
         if (!context.HttpContext.Request.Headers.TryGetValue("Idempotency-Key", out var key))
         {
-            context.Result = new BadRequestObjectResult("Missing Idempotency-Key header");
+            context.Result = new BadRequestObjectResult("Chave de idempotência não encontrada");
             return;
         }
 

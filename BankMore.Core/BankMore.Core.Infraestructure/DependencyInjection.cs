@@ -1,10 +1,12 @@
 ﻿using BankMore.Core.Application.Iterfaces;
+using BankMore.Core.Application.Services;
 using BankMore.Core.Infraestructure.Auth;
 using BankMore.Core.Infraestructure.Constants;
 using BankMore.Core.Infraestructure.Contracts;
 using BankMore.Core.Infraestructure.Database;
 using BankMore.Core.Infraestructure.HttpClients.Handlers;
 using BankMore.Core.Infraestructure.Models;
+using BankMore.Core.Infraestructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +29,7 @@ public static class DependencyInjection
         services.AddTransient<AuthenticatedHttpClientHandler>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IUserIdentity, UserIdentity>();
+        services.AddScoped<IIdempotencyService, IdempotencyService>();
 
         return services;
     }

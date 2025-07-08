@@ -1,5 +1,6 @@
 ﻿using BankMore.Account.Application.UseCases.Account.Create;
 using BankMore.Account.Application.UseCases.Account.Inactivate;
+using BankMore.Core.API.Attrubutes;
 using BankMore.Core.API.Base;
 using BankMore.Core.API.Extensions;
 using BankMore.Core.API.Models;
@@ -16,6 +17,7 @@ namespace BankMore.Account.API.Controllers.V1;
 [Route("api/v1/account")]
 public class AccountController(IMediator mediator): BaseController
 {
+    [Idempotency]
     [AllowAnonymous]
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using BankMore.Core.API.Filters;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +9,13 @@ namespace BankMore.Core.API;
 
 public static class DependencyInjection
 {
+    public static IServiceCollection AddIdempotency(this IServiceCollection services)
+    {
+        services.AddScoped<IdempotencyFilter>();
+
+        return services;
+    }
+
     public static IServiceCollection AddBearerAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpContextAccessor();

@@ -29,6 +29,7 @@ builder.Services
     .AddSqliteContext(builder.Configuration)
     .AddServices()
     .AddBearerAuthentication(builder.Configuration)
+    .AddIdempotency()
     .AddRepositories()
     .AddValidators();
 

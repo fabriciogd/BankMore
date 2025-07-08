@@ -19,6 +19,8 @@ public class IdempotencyFilter(IIdempotencyService idempotencyService) : IAsyncA
 
         if (exists)
         {
+            context.HttpContext.Response.Headers.Add("Idempotency-Cache", "HIT");
+
             context.Result = new ContentResult
             {
                 StatusCode = statusCode,

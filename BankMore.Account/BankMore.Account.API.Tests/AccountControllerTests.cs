@@ -22,6 +22,7 @@ public class AccountControllerTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task Should_Return_Success_When_Request_Correct()
     {
+        //Arrange
         var request = new AccountCreateRequest()
         {
             Name = "Teste",
@@ -29,15 +30,48 @@ public class AccountControllerTests : IClassFixture<CustomWebApplicationFactory>
             Password = "123"
         };
 
-        var response = await _httpClient
-            .PostAsJsonAsync("api/v1/account", request, _options);
+        var content = JsonContent.Create(request);
+        content.Headers.Add("Idempotency-Key", "111");
 
+        //Act
+        var response = await _httpClient
+            .PostAsync("api/v1/account", content);
+
+        //Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
     [Fact]
+    public async Task Should_Return_Success_When_Request_Idempotent()
+    {
+        //Arrange
+        var request = new AccountCreateRequest()
+        {
+            Name = "Teste",
+            NationalDocument = "81215896069",
+            Password = "123"
+        };
+
+        var content = JsonContent.Create(request);
+        content.Headers.Add("Idempotency-Key", "222");
+
+        //Act
+        var response = await _httpClient
+            .PostAsync("api/v1/account", content);
+
+        response = await _httpClient
+            .PostAsync("api/v1/account", content);
+
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.True(response.Headers.Contains("Idempotency-Cache"));
+    }
+
+
+    [Fact]
     public async Task Should_Return_Error_When_Request_Invalid()
     {
+        //Arrange
         var request = new AccountCreateRequest()
         {
             Name = "Teste",
@@ -45,9 +79,14 @@ public class AccountControllerTests : IClassFixture<CustomWebApplicationFactory>
             Password = "123"
         };
 
-        var response = await _httpClient
-            .PostAsJsonAsync("api/v1/account", request, _options);
+        var content = JsonContent.Create(request);
+        content.Headers.Add("Idempotency-Key", "333");
 
+        //Act
+        var response = await _httpClient
+            .PostAsync("api/v1/account", content);
+
+        //Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 }

@@ -7,8 +7,12 @@ using BankMore.Core.API.Middleware;
 using BankMore.Core.Application;
 using BankMore.Core.Application.Iterfaces;
 using BankMore.Core.Infraestructure;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfig) =>
+    loggerConfig.ReadFrom.Configuration(builder.Configuration));
 
 // Add services to the container.
 

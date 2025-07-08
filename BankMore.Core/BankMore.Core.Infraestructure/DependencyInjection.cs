@@ -29,7 +29,13 @@ public static class DependencyInjection
         services.AddTransient<AuthenticatedHttpClientHandler>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IUserIdentity, UserIdentity>();
-        services.AddScoped<IIdempotencyService, IdempotencyService>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddIdempotencyService(this IServiceCollection services)
+    {
+        services.AddScoped<IIdempotencyService, RedisIdempotencyService>();
 
         return services;
     }

@@ -1,13 +1,11 @@
-using BankMore.Core.Application;
-using BankMore.Core.Infraestructure;
 using BankMore.Core.API;
-using BankMore.Core.API.Middleware;
-using BankMore.Transfer.Infraestructure;
-using BankMore.Core.API.Helpers;
-using Microsoft.OpenApi.Models;
-using BankMore.Core.API.Filters;
 using BankMore.Core.API.Extensions;
+using BankMore.Core.API.Filters;
+using BankMore.Core.API.Middleware;
+using BankMore.Core.Application;
 using BankMore.Core.Application.Iterfaces;
+using BankMore.Core.Infraestructure;
+using BankMore.Transfer.Infraestructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

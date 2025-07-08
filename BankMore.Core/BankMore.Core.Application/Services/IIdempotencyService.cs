@@ -1,9 +1,7 @@
-﻿using BankMore.Core.Domain.Entities;
-
-namespace BankMore.Core.Application.Services;
+﻿namespace BankMore.Core.Application.Services;
 
 public interface IIdempotencyService
 {
-    Task<Idempotency?> TryGetAsync(string key);
-    Task SaveAsync(Idempotency idempotency);
+    Task<(bool exists, int statusCode, string responseBody)> TryGetAsync(string key);
+    Task SaveAsync(string key, int statusCode, string responseBody);
 }

@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS Idempotencies (
-    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-    Key TEXT NOT NULL,
-    CreatedAt TEXT NOT NULL,
-    StatusCode INTEGER NOT NULL,
-    ResponseBody TEXT NOT NULL
-);

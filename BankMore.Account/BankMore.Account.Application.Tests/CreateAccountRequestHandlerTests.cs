@@ -1,6 +1,7 @@
 ﻿using BankMore.Account.Application.UseCases.Account.Create;
 using BankMore.Account.Domain.Entities;
 using BankMore.Account.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace BankMore.Account.Application.Tests;
@@ -8,13 +9,15 @@ namespace BankMore.Account.Application.Tests;
 public class CreateAccountRequestHandlerTests
 {
     private readonly Mock<ICheckingAccountRepository> _repository;
+    private readonly Mock<ILogger<AccountCreateRequestHandler>> _logger;
 
     private readonly AccountCreateRequestHandler _handler;
 
     public CreateAccountRequestHandlerTests()
     {
         _repository = new Mock<ICheckingAccountRepository>();
-        _handler = new AccountCreateRequestHandler( _repository.Object );
+        _logger = new Mock<ILogger<AccountCreateRequestHandler>>();
+        _handler = new AccountCreateRequestHandler(_repository.Object, _logger.Object);
     }
 
     [Fact]

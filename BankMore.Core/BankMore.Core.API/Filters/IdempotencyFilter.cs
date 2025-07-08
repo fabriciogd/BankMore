@@ -1,12 +1,11 @@
 ﻿using BankMore.Core.Application.Services;
-using BankMore.Core.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Text.Json;
 
 namespace BankMore.Core.API.Filters;
 
-public class IdempotencyFilter(IIdempotencyService _idempotencyService) : IAsyncActionFilter
+public class IdempotencyFilter(IIdempotencyService idempotencyService) : IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
@@ -16,14 +15,14 @@ public class IdempotencyFilter(IIdempotencyService _idempotencyService) : IAsync
             return;
         }
 
-        var entity = await _idempotencyService.TryGetAsync(key!);
+        var (exists, statusCode, body) = await idempotencyService.TryGetAsync(key!);
 
-        if (entity is not null)
+        if (exists)
         {
             context.Result = new ContentResult
             {
-                StatusCode = entity.StatusCode,
-                Content = entity.ResponseBody,
+                StatusCode = statusCode,
+                Content = body,
                 ContentType = "application/json"
             };
             return;
@@ -35,15 +34,7 @@ public class IdempotencyFilter(IIdempotencyService _idempotencyService) : IAsync
         {
             var serializedBody = JsonSerializer.Serialize(objectResult.Value);
 
-            entity = new Idempotency()
-            {
-                Key = key,
-                StatusCode = objectResult.StatusCode ?? 200,
-                CreatedAt = DateTime.Now,
-                ResponseBody = serializedBody
-            };
-
-            await _idempotencyService.SaveAsync(entity);
+            await idempotencyService.SaveAsync(key!, objectResult.StatusCode ?? 200, serializedBody);
         }
     }
 }

@@ -1,17 +1,25 @@
 ﻿using BankMore.Core.API.Filters;
+using BankMore.Core.Infraestructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System.Text;
 
 namespace BankMore.Core.API;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddIdempotency(this IServiceCollection services)
+    public static IServiceCollection AddIdempotency(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IdempotencyFilter>();
+
+        services.AddSingleton<IConnectionMultiplexer>(
+            _ => ConnectionMultiplexer.Connect(configuration["Redis:Url"])
+        );
+
+        services.AddIdempotencyService();
 
         return services;
     }

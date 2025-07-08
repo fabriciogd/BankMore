@@ -1,6 +1,13 @@
 version: '3.9'
 
 services:
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+
   account-api:
     build:
       context: .
@@ -11,6 +18,8 @@ services:
       - "8011:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - redis
 
   transfer-api:
     build:

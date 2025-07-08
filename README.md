@@ -7,5 +7,5 @@ Observações:
 - Foi utilizado CQRS + Result pattern no projeto.
 - Testes foram realizados para fins ilustrativos. O diferencial é que foi feito teste de integração, desde a controller até a inserção em um Sqlite em memória.
 - Polly para retry policy de chamadas para api.
-- Idempotência usando atributo de action.
+- Idempotência sendo executada através de atributo da action. Dados salvos e recuperados do redis.
 - Log de exemplo usando serilog

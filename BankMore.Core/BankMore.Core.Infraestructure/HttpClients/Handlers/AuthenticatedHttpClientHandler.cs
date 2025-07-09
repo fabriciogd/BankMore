@@ -14,12 +14,10 @@ public class AuthenticatedHttpClientHandler : DelegatingHandler
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        // Recupera o token do contexto HTTP atual (se estiver no header Authorization)
         var accessToken = _httpContextAccessor.HttpContext?.Request?.Headers["Authorization"].ToString();
 
         if (!string.IsNullOrWhiteSpace(accessToken))
         {
-            // Adiciona o token à requisição
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken.Replace("Bearer ", ""));
         }
 

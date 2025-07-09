@@ -1,6 +1,6 @@
 ﻿namespace BankMore.Transfer.Domain.Events;
 
-public class TranasferEvent
+public class TransferEvent
 {
     public int CheckingAccountId { get; set; }
 

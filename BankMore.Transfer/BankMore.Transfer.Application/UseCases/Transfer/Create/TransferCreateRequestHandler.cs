@@ -62,7 +62,7 @@ internal sealed class TransferCreateRequestHandler(
 
         await transferRepository.AddAsync(transfer, cancellationToken);
 
-        var transferEvent = new TranasferEvent()
+        var transferEvent = new TransferEvent()
         {
             CheckingAccountId = 1,
             Date = DateTime.Now,

@@ -10,3 +10,4 @@ Observações:
 - Idempotência sendo executada através de atributo da action. Dados salvos e recuperados do redis.
 - Log de exemplo usando serilog
 - Mensageria usando Rabbitmq e Rebus
+- O projeto de tarifas basicamente é um Consoler.Application transformado em um Host. Diferente do Worker service, precisa configurar o Host manualmente.

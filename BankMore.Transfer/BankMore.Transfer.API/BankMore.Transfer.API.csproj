@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Scripts\001-create-transfer-table.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\001-create-transfer-table.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
@@ -17,13 +25,8 @@
     <ProjectReference Include="..\..\BankMore.Core\BankMore.Core.API\BankMore.Core.API.csproj" />
     <ProjectReference Include="..\..\BankMore.Core\BankMore.Core.Application\BankMore.Core.Application.csproj" />
     <ProjectReference Include="..\..\BankMore.Core\BankMore.Core.EventBus\BankMore.Core.EventBus.csproj" />
-    <ProjectReference Include="..\..\BankMore.Core\BankMore.Core.Infraestructure\BankMore.Core.Infraestructure.csproj" />
     <ProjectReference Include="..\BankMore.Transfer.Application\BankMore.Transfer.Application.csproj" />
     <ProjectReference Include="..\BankMore.Transfer.Infraestructure\BankMore.Transfer.Infraestructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Scripts\" />
   </ItemGroup>
 
 </Project>

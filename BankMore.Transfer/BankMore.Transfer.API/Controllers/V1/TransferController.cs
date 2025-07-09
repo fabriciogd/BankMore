@@ -2,21 +2,17 @@
 using BankMore.Core.API.Models;
 using BankMore.Transfer.Application.UseCases.Transfer.Create;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 
 namespace BankMore.Transfer.API.Controllers.V1;
 
-
-
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v1/transfer")]
 public class TransferController(IMediator mediator) : ControllerBase
 {
-    [AllowAnonymous]
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]

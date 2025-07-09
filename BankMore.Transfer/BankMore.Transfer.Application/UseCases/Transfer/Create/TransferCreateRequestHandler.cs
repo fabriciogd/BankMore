@@ -64,12 +64,12 @@ internal sealed class TransferCreateRequestHandler(
 
         var transferEvent = new TranasferEvent()
         {
-            CheckingAccountId = transfer.SouceCheckingAccountId,
-            Date = transfer.Date,
-            Value = transfer.Value
+            CheckingAccountId = 1,
+            Date = DateTime.Now,
+            Value = 1
         };
 
-        await publisherEndpoint.PublishAsync("tariff-queue", new Body(transferEvent));
+        await publisherEndpoint.PublishAsync("tariff-queue", new Body(transferEvent), cancellationToken);
 
         return Unit.Value;
     }

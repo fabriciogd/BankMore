@@ -9,3 +9,4 @@ Observações:
 - Polly para retry policy de chamadas para api.
 - Idempotência sendo executada através de atributo da action. Dados salvos e recuperados do redis.
 - Log de exemplo usando serilog
+- Mensageria usando Rabbitmq e Rebus

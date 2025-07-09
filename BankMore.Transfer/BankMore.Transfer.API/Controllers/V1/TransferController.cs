@@ -10,11 +10,13 @@ using System.Net.Mime;
 namespace BankMore.Transfer.API.Controllers.V1;
 
 
+
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v1/transfer")]
 public class TransferController(IMediator mediator) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpPost]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]

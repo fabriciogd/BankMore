@@ -6,6 +6,7 @@ using BankMore.Core.Application;
 using BankMore.Core.Application.Iterfaces;
 using BankMore.Core.Infraestructure;
 using BankMore.Transfer.Infraestructure;
+using BankMore.Core.EventBus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,8 @@ builder.Services
     .AddServices()
     .AddBearerAuthentication(builder.Configuration)
     .AddRepositories()
-    .AddExternalServices(builder.Configuration);
+    .AddExternalServices(builder.Configuration)
+    .AddEventBusContext(builder.Configuration);
 
 var app = builder.Build();
 

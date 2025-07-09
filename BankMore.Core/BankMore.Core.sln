@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankMore.Core.Application",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankMore.Core.API", "BankMore.Core.API\BankMore.Core.API.csproj", "{81DEC602-BB65-4BED-8DFF-C649E79B45B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankMore.Core.Infraestructure", "BankMore.Core.Infraestructure\BankMore.Core.Infraestructure.csproj", "{5E6ECC4A-94A0-4844-9C4A-60E348D53B6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankMore.Core.Infraestructure", "BankMore.Core.Infraestructure\BankMore.Core.Infraestructure.csproj", "{5E6ECC4A-94A0-4844-9C4A-60E348D53B6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankMore.Core.EventBus", "BankMore.Core.EventBus\BankMore.Core.EventBus.csproj", "{1AE697FC-D27C-4E5E-9D05-8382B78DEA90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5E6ECC4A-94A0-4844-9C4A-60E348D53B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E6ECC4A-94A0-4844-9C4A-60E348D53B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E6ECC4A-94A0-4844-9C4A-60E348D53B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AE697FC-D27C-4E5E-9D05-8382B78DEA90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AE697FC-D27C-4E5E-9D05-8382B78DEA90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AE697FC-D27C-4E5E-9D05-8382B78DEA90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AE697FC-D27C-4E5E-9D05-8382B78DEA90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,10 +3,21 @@ version: '3.9'
 services:
   redis-api:
     image: bitnami/redis:latest
+    container_name: 'redis-api'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
       - "6379:6379"
+
+  rabbitmq-api:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq-api'
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
 
   account-api:
     build:
@@ -19,7 +30,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     depends_on:
-      - redis
+      - redis-api
 
   transfer-api:
     build:
@@ -31,3 +42,13 @@ services:
       - "8012:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+
+  tariff-consumer:
+    build:
+      context: .
+      dockerfile: ./BankMore.Tariff/Dockerfile
+    container_name: bankmore-tariff-consumer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - EventBus__ConnectionString=amqp://guest:guest@rabbitmq-api:5672/
+

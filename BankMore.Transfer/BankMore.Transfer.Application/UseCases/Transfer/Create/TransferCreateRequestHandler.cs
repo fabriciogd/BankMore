@@ -1,7 +1,10 @@
 ﻿using BankMore.Core.Domain.Primitives;
+using BankMore.Core.EventBus.Contracts;
+using BankMore.Core.EventBus.Models;
 using BankMore.Core.Infraestructure.Contracts;
 using BankMore.Transfer.Application.Errors;
 using BankMore.Transfer.Domain.Constants;
+using BankMore.Transfer.Domain.Events;
 using BankMore.Transfer.Domain.External.Account;
 using BankMore.Transfer.Domain.External.Account.Request;
 using BankMore.Transfer.Domain.Repostories;
@@ -12,7 +15,8 @@ namespace BankMore.Transfer.Application.UseCases.Transfer.Create;
 internal sealed class TransferCreateRequestHandler(
     IAccountMovementApiService accountMovementApiService,
     ITransferRepository transferRepository,
-    IUserIdentity userIdentity
+    IUserIdentity userIdentity,
+    IPublisherEndpoint publisherEndpoint
 ) : IRequestHandler<TransferCreateRequest, Result<Unit>>
 {
     public async Task<Result<Unit>> Handle(TransferCreateRequest request, CancellationToken cancellationToken)
@@ -57,6 +61,15 @@ internal sealed class TransferCreateRequestHandler(
             request.Value);
 
         await transferRepository.AddAsync(transfer, cancellationToken);
+
+        var transferEvent = new TranasferEvent()
+        {
+            CheckingAccountId = transfer.SouceCheckingAccountId,
+            Date = transfer.Date,
+            Value = transfer.Value
+        };
+
+        await publisherEndpoint.PublishAsync("tariff-queue", new Body(transferEvent));
 
         return Unit.Value;
     }

@@ -13,7 +13,7 @@ internal sealed class MovementRepository(IDbConnectionFactory connectionFactory)
             INSERT INTO Movements (CheckingAccountId, Date, Type, Value)
             VALUES (@CheckingAccountId, @Date, @Type, @Value);
             SELECT last_insert_rowid();
-        """;
+            """;
 
         using var connection = await connectionFactory.CreateOpenConnectionAsync();
 
@@ -28,7 +28,7 @@ internal sealed class MovementRepository(IDbConnectionFactory connectionFactory)
             SELECT IFNULL(SUM(CASE WHEN Type = 'C' THEN Value ELSE -Value END), 0)
             FROM Movements
             WHERE CheckingAccountId = @Id;
-        """;
+            """;
 
         using var connection = await connectionFactory.CreateOpenConnectionAsync();
 

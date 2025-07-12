@@ -43,6 +43,7 @@ public class AccountController(IMediator mediator): BaseController
     [SwaggerOperation("Inativar conta corrente")]
     [SwaggerResponse(StatusCodes.Status204NoContent, "Conta corrente inativada com sucesso")]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "Dados inválidos", typeof(ApiErrorResponse))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Não autorizado", typeof(ApiErrorResponse))]
     public async Task<IActionResult> Inactivate(CancellationToken cancellationToken)
     {
         var request = new AccountInactivateRequest();

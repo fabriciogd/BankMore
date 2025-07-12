@@ -1,4 +1,5 @@
 ﻿using BankMore.Account.Application.UseCases.Authentication.Login;
+using BankMore.Core.API.Base;
 using BankMore.Core.API.Extensions;
 using BankMore.Core.API.Models;
 using MediatR;
@@ -12,7 +13,7 @@ namespace BankMore.Account.API.Controllers.V1;
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v1/authentication")]
-public class AuthenticationController(IMediator mediator) : ControllerBase
+public class AuthenticationController(IMediator mediator) : BaseController
 {
     [AllowAnonymous]
     [HttpPost]

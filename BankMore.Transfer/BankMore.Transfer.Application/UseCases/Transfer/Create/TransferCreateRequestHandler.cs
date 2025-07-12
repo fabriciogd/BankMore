@@ -24,9 +24,6 @@ internal sealed class TransferCreateRequestHandler(
         if (userIdentity.NumberAccount == request.DestinationNumberAccount)
             return TransferErrors.InvalidDestinationAccount;
 
-        if (request.Value <= 0)
-            return TransferErrors.InvalidValue;
-
         var registerDebitResponse = await accountMovementApiService.RegisterMovementAsync(new AccountMovementRequestApi()
         {
             NumberAccount = userIdentity.NumberAccount,

@@ -13,7 +13,7 @@ internal sealed class CheckingAccountRepository(IDbConnectionFactory connectionF
             INSERT INTO Accounts (NumberAccount, NationalDocument, Name, IsActive, Password, Salt)
             VALUES (@NumberAccount, @NationalDocument, @Name, @IsActive, @Password, @Salt);
             SELECT last_insert_rowid();
-        """;
+            """;
 
         using var connection = await connectionFactory.CreateOpenConnectionAsync();
 

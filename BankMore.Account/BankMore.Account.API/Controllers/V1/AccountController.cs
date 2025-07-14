@@ -2,13 +2,13 @@
 using BankMore.Account.Application.UseCases.Account.Inactivate;
 using BankMore.Core.API.Attrubutes;
 using BankMore.Core.API.Base;
-using BankMore.Core.API.Extensions;
 using BankMore.Core.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
+using BankMore.Core.API.Extensions;
 
 namespace BankMore.Account.API.Controllers.V1;
 
@@ -31,10 +31,7 @@ public class AccountController(IMediator mediator): BaseController
 
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.IsSuccess)
-            return result.ToHttpNonSuccessResult();
-
-        return Ok(result.Value);
+        return result.MatchToResult();
     }
 
     [HttpPut]
@@ -50,9 +47,6 @@ public class AccountController(IMediator mediator): BaseController
 
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.IsSuccess)
-            return result.ToHttpNonSuccessResult();
-
-        return Ok();
+        return result.MatchToResult((value) => Ok());
     }
 }

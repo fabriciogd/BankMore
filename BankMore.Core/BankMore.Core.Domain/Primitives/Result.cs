@@ -30,5 +30,9 @@ public class Result<TValue>
         new(error);
 
     public static Result<TValue> Success(TValue value) =>
-        new(value);
+    new(value);
+
+    public TResult Match<TResult>(Func<TValue, TResult> success, Func<Error, TResult> failure) =>
+        IsSuccess ? success(Value) : failure(Error);
+
 }

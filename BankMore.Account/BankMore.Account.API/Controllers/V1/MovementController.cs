@@ -27,10 +27,7 @@ public class MovementController(IMediator mediator) : BaseController
     {
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.IsSuccess)
-            return result.ToHttpNonSuccessResult();
-
-        return Ok(result.Value);
+        return result.MatchToResult();
     }
 
     [HttpGet("balance")]
@@ -46,9 +43,6 @@ public class MovementController(IMediator mediator) : BaseController
 
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.IsSuccess)
-            return result.ToHttpNonSuccessResult();
-
-        return Ok(result.Value);
+        return result.MatchToResult();
     }
 }

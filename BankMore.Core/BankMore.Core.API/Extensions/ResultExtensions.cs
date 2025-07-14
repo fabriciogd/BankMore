@@ -8,9 +8,21 @@ namespace BankMore.Core.API.Extensions;
 
 public static class ResultExtensions
 {
-    public static IActionResult ToHttpNonSuccessResult<T>(this Result<T> result)
+    public static IActionResult MatchToResult<TResult>(this Result<TResult> result,
+            Func<TResult, IActionResult> successAction = null!)
     {
-        var statusCode = result.Error.ErrorType switch
+        {
+            successAction ??= (r) => new OkObjectResult(r);
+
+            return result.Match(
+                success => successAction(success),
+                failure => ToHttpNonSuccessResult(failure));
+        }
+    }
+
+    public static IActionResult ToHttpNonSuccessResult(Error error)
+    {
+        var statusCode = error.ErrorType switch
         {
             ErrorType.NotFound => StatusCodes.Status404NotFound,
             ErrorType.Validation => StatusCodes.Status400BadRequest,
@@ -21,9 +33,10 @@ public static class ResultExtensions
             _ => StatusCodes.Status500InternalServerError
         };
 
-        return new ObjectResult(new ApiErrorResponse(result.Error.Code, result.Error.Description))
-        {
-            StatusCode = statusCode
-        };
+        return new ObjectResult(
+            new ApiErrorResponse(error.Code, error.Description))
+            {
+                StatusCode = statusCode
+            };
     }
 };

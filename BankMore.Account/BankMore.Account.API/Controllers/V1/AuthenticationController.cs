@@ -26,9 +26,6 @@ public class AuthenticationController(IMediator mediator) : BaseController
     {
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.IsSuccess)
-            return result.ToHttpNonSuccessResult();
-
-        return Ok(result.Value);
+        return result.MatchToResult();
     }
 }

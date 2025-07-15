@@ -14,6 +14,7 @@ namespace BankMore.Transfer.Application.UseCases.Transfer.Create;
 
 public sealed class TransferCreateRequestHandler(
     IAccountMovementApiService accountMovementApiService,
+    IAccountApiService accountApiService,
     ITransferRepository transferRepository,
     IUserIdentity userIdentity,
     IIdempotency idempotency,
@@ -25,6 +26,23 @@ public sealed class TransferCreateRequestHandler(
         if (userIdentity.NumberAccount == request.DestinationNumberAccount)
             return TransferErrors.InvalidDestinationAccount;
 
+        var sourceAccount = await accountApiService.GetActiveAsync(userIdentity.NumberAccount, cancellationToken);
+
+        if (!sourceAccount.IsSuccess)
+            return sourceAccount.Error;
+
+        var desinationAccount = await accountApiService.GetActiveAsync(request.DestinationNumberAccount, cancellationToken);
+
+        if (!desinationAccount.IsSuccess)
+            return desinationAccount.Error;
+
+        var transfer = Domain.Entities.Transfer.Create(
+            sourceAccount.Value.CheckingAccountId,
+            desinationAccount.Value.CheckingAccountId,
+            request.Value);
+
+        await transferRepository.AddAsync(transfer, cancellationToken);
+
         var requestDebit = new AccountMovementRequestApi()
         {
             NumberAccount = userIdentity.NumberAccount,
@@ -34,11 +52,16 @@ public sealed class TransferCreateRequestHandler(
 
         var registerDebitResponse = await accountMovementApiService.RegisterMovementAsync(
             requestDebit, 
-            idempotency.Key + "DEBIT", 
+            idempotency.Key + MovementType.Debit, 
             cancellationToken);
 
         if (!registerDebitResponse.IsSuccess)
+        {
+            transfer.SetStatus(TransferStatusType.Failed);
+            await transferRepository.UpdateAsync(transfer);
+
             return Unit.Value;
+        }
 
         var requestCredit = new AccountMovementRequestApi()
         {
@@ -49,7 +72,7 @@ public sealed class TransferCreateRequestHandler(
 
         var registerCreditResponse = await accountMovementApiService.RegisterMovementAsync(
             requestCredit, 
-            idempotency.Key + "CREDIT", 
+            idempotency.Key + MovementType.Credit, 
             cancellationToken);
 
         if (!registerCreditResponse.IsSuccess)
@@ -63,17 +86,17 @@ public sealed class TransferCreateRequestHandler(
 
             await accountMovementApiService.RegisterMovementAsync(
                 requestReversal, 
-                idempotency.Key + "REVERSAL", 
+                idempotency.Key + MovementType.Refund,
                 cancellationToken);
+
+            transfer.SetStatus(TransferStatusType.Refunded);
+            await transferRepository.UpdateAsync(transfer);
+
+            return Unit.Value;
         }
 
-        var transfer = Domain.Entities.Transfer.Create(
-            registerDebitResponse.Value.CheckingAccountId, 
-            registerCreditResponse.Value.CheckingAccountId,
-            DateTime.Now,
-            request.Value);
-
-        await transferRepository.AddAsync(transfer, cancellationToken);
+        transfer.SetStatus(TransferStatusType.Finished);
+        await transferRepository.UpdateAsync(transfer);
 
         var transferEvent = new TransferEvent()
         {

@@ -27,10 +27,10 @@ public abstract class BaseApiService(HttpClient client)
     protected static T GetResultContentAsync<T>(string content) => JsonConvert.DeserializeObject<T>(content);
     
     protected async Task<Result<TResponse>> PostWithIdempotencyAsync<TRequest, TResponse, TErrorResponse>(
-        string resource,
-        TRequest body,
-        string idempotencyKey,
-        CancellationToken cancellationToken) where TRequest : class where TResponse : class where TErrorResponse: IErrorResponse
+        string resource, TRequest body, string idempotencyKey, CancellationToken cancellationToken) 
+        where TRequest : class 
+        where TResponse : class 
+        where TErrorResponse: IErrorResponse
     {
         var endpoint = $"{client.BaseAddress}{resource}";
 
@@ -42,6 +42,19 @@ public abstract class BaseApiService(HttpClient client)
         request.Headers.Add("Idempotency-Key", idempotencyKey);
 
         var httpResponse = await client.SendWithRetryPolicyAsync(request, cancellationToken);
+
+        return await ProcessResultContentAsync<TResponse, TErrorResponse>(httpResponse);
+    }
+
+    protected async Task<Result<TResponse>> GetAsync<TResponse, TErrorResponse>(
+        string resource, CancellationToken cancellationToken)
+        where TResponse : class
+        where TErrorResponse : IErrorResponse
+    {
+        var startRequest = DateTime.Now;
+        var endpoint = $"{client.BaseAddress}{resource}";
+
+        var httpResponse = await client.GetWithRetryPolicyAsync(new Uri(endpoint), cancellationToken);
 
         return await ProcessResultContentAsync<TResponse, TErrorResponse>(httpResponse);
     }

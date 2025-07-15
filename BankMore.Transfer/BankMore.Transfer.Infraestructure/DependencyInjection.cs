@@ -14,7 +14,9 @@ public static class DependencyInjection
     {
         services.AddHttpClient<IAccountMovementApiService, AccountMovementApiService>(cfg => 
             cfg.BaseAddress = new Uri(configuration["AccountApi:Url"])).AddHttpMessageHandler<AuthenticatedHttpClientHandler>();
-        ;
+
+        services.AddHttpClient<IAccountApiService, AccountApiService>(cfg =>
+            cfg.BaseAddress = new Uri(configuration["AccountApi:Url"])).AddHttpMessageHandler<AuthenticatedHttpClientHandler>();
 
         return services;
     }

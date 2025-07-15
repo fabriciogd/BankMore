@@ -1,4 +1,5 @@
 ﻿using BankMore.Core.Domain.Abstracts;
+using BankMore.Transfer.Domain.Constants;
 
 namespace BankMore.Transfer.Domain.Entities;
 
@@ -12,12 +13,17 @@ public class Transfer : Entity
 
     public decimal Value { get; set; }
 
-    public static Transfer Create(int sourceCheckingAccountId, int destinationCheckingAccountId, DateTime date, decimal value)
+    public char Status { get; set; }
+
+    public static Transfer Create(int sourceCheckingAccountId, int destinationCheckingAccountId, decimal value)
         => new()
         {
             SouceCheckingAccountId = sourceCheckingAccountId,
             DestinationCheckingAccountId = destinationCheckingAccountId,
-            Date = date,
-            Value = value
+            Date = DateTime.Now,
+            Value = value,
+            Status = TransferStatusType.Started
         };
+
+    public void SetStatus(char status) => Status = status;
 }

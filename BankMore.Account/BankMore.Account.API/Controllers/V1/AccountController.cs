@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 using BankMore.Core.API.Extensions;
+using BankMore.Account.Application.UseCases.Account.GetActive;
 
 namespace BankMore.Account.API.Controllers.V1;
 
@@ -30,6 +31,19 @@ public class AccountController(IMediator mediator): BaseController
         await ValidateAndThrowAsync<AccountCreateRequestValidator, AccountCreateRequest>(request);
 
         var result = await mediator.Send(request, cancellationToken);
+
+        return result.MatchToResult();
+    }
+
+    [HttpGet("{numerAccount}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [SwaggerOperation("Obter dados de conta corrente")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Dados de conta corrente", typeof(AccountCreateResponse))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Dados inválidos", typeof(ApiErrorResponse))]
+    public async Task<IActionResult> Get([FromRoute] int numberAccount, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new AccountGetActiveRequest(numberAccount), cancellationToken);
 
         return result.MatchToResult();
     }

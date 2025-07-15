@@ -19,6 +19,8 @@ internal sealed class CheckingAccountRepository(IDbConnectionFactory connectionF
 
         var id = await connection.ExecuteScalarAsync<int>(sql, entity);
 
+        entity.Id = id;
+
         return id;
     }
 

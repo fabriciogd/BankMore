@@ -20,6 +20,18 @@ public static class HttpClientRetryPolicyExtensions
         return await retryPolicy.ExecuteAsync(x => httpClient.SendAsync(request, cancellationToken), context);
     }
 
+    public static async Task<HttpResponseMessage> GetWithRetryPolicyAsync(
+        this HttpClient httpClient, 
+        Uri uriRoute,
+        CancellationToken cancellationToken)
+    {
+        var retryPolicy = GetRetryPolicy();
+
+        var context = new Context(uriRoute.AbsolutePath);
+
+        return await retryPolicy.ExecuteAsync(x => httpClient.GetAsync(uriRoute, cancellationToken), context);
+    }
+
     private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
     {
         return HttpPolicyExtensions

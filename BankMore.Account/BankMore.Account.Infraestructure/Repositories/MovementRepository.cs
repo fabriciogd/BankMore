@@ -19,6 +19,8 @@ internal sealed class MovementRepository(IDbConnectionFactory connectionFactory)
 
         var id = await connection.ExecuteScalarAsync<int>(sql, entity);
 
+        entity.Id = id;
+
         return id;
     }
 

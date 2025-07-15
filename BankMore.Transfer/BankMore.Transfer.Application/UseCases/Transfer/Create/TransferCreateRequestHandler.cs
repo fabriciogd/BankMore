@@ -2,7 +2,7 @@
 using BankMore.Core.EventBus.Contracts;
 using BankMore.Core.EventBus.Models;
 using BankMore.Core.Infraestructure.Contracts;
-using BankMore.Transfer.Application.Errors;
+using BankMore.Transfer.Domain.Errors;
 using BankMore.Transfer.Domain.Constants;
 using BankMore.Transfer.Domain.Events;
 using BankMore.Transfer.Domain.External.Account;

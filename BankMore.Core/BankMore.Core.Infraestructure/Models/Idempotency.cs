@@ -1,8 +1,8 @@
-﻿namespace BankMore.Core.Infraestructure.Models;
+﻿using BankMore.Core.Infraestructure.Contracts;
 
-public class Idempotency
+namespace BankMore.Core.Infraestructure.Models;
+
+internal sealed class Idempotency : IIdempotency
 {
-    public int StatusCode { get; set; }
-
-    public string? ResponseBody { get; set; }
+    public string Key { get; set; }
 }

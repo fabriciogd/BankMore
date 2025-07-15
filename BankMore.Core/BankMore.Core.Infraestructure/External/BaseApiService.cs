@@ -4,7 +4,9 @@ using BankMore.Core.Infraestructure.Extensions;
 using BankMore.Core.Infraestructure.External.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Net;
+using System.Net.Http.Json;
 using System.Text;
 
 namespace BankMore.Core.Infraestructure.External;
@@ -23,16 +25,23 @@ public abstract class BaseApiService(HttpClient client)
     }
 
     protected static T GetResultContentAsync<T>(string content) => JsonConvert.DeserializeObject<T>(content);
-
-    protected async Task<Result<TResponse>> PostAsync<TRequest, TResponse, TErrorResponse>(string resource, TRequest request)
-        where TRequest : class
-        where TResponse : class
-        where TErrorResponse: IErrorResponse
+    
+    protected async Task<Result<TResponse>> PostWithIdempotencyAsync<TRequest, TResponse, TErrorResponse>(
+        string resource,
+        TRequest body,
+        string idempotencyKey,
+        CancellationToken cancellationToken) where TRequest : class where TResponse : class where TErrorResponse: IErrorResponse
     {
-        var startRequest = DateTime.Now;
         var endpoint = $"{client.BaseAddress}{resource}";
 
-        var httpResponse = await client.PostWithRetryPolicyAsync(endpoint, GetStringContent(request));
+        var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+        {
+            Content = GetStringContent(body)
+        };
+
+        request.Headers.Add("Idempotency-Key", idempotencyKey);
+
+        var httpResponse = await client.SendWithRetryPolicyAsync(request, cancellationToken);
 
         return await ProcessResultContentAsync<TResponse, TErrorResponse>(httpResponse);
     }

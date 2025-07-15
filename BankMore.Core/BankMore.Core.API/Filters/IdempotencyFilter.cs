@@ -1,11 +1,12 @@
 ﻿using BankMore.Core.Application.Services;
+using BankMore.Core.Infraestructure.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Text.Json;
 
 namespace BankMore.Core.API.Filters;
 
-public class IdempotencyFilter(IIdempotencyService idempotencyService) : IAsyncActionFilter
+public class IdempotencyFilter(IIdempotencyService idempotencyService, IIdempotency idempotency) : IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
@@ -29,6 +30,8 @@ public class IdempotencyFilter(IIdempotencyService idempotencyService) : IAsyncA
             };
             return;
         }
+
+        idempotency.Key = key;
 
         var executedContext = await next();
 

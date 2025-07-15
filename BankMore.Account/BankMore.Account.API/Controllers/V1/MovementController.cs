@@ -1,6 +1,7 @@
 ﻿using BankMore.Account.Application.UseCases.Account.Create;
 using BankMore.Account.Application.UseCases.Movement.Balance;
 using BankMore.Account.Application.UseCases.Movement.Create;
+using BankMore.Core.API.Attrubutes;
 using BankMore.Core.API.Base;
 using BankMore.Core.API.Extensions;
 using BankMore.Core.API.Models;
@@ -17,6 +18,7 @@ namespace BankMore.Account.API.Controllers.V1;
 public class MovementController(IMediator mediator) : BaseController
 {
     [HttpPost]
+    [Idempotency]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     [SwaggerOperation("Registrar novo movimento")]
@@ -25,6 +27,8 @@ public class MovementController(IMediator mediator) : BaseController
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Não autorizado", typeof(ApiErrorResponse))]
     public async Task<IActionResult> Create([FromBody] MovementCreateRequest request, CancellationToken cancellationToken)
     {
+        await ValidateAndThrowAsync<MovementCreateRequestValidator, MovementCreateRequest>(request);
+
         var result = await mediator.Send(request, cancellationToken);
 
         return result.MatchToResult();

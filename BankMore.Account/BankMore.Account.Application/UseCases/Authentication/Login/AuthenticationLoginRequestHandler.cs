@@ -1,4 +1,4 @@
-﻿using BankMore.Account.Application.Errors;
+﻿using BankMore.Account.Domain.Errors;
 using BankMore.Account.Domain.Repositories;
 using BankMore.Core.Application.Iterfaces;
 using BankMore.Core.Domain.Primitives;

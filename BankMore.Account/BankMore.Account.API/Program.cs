@@ -1,4 +1,5 @@
 using BankMore.Account.Application;
+using BankMore.Account.Domain;
 using BankMore.Account.Infraestructure;
 using BankMore.Core.API;
 using BankMore.Core.API.Extensions;
@@ -31,7 +32,8 @@ builder.Services
     .AddBearerAuthentication(builder.Configuration)
     .AddIdempotency(builder.Configuration)
     .AddRepositories()
-    .AddValidators();
+    .AddValidators()
+    .AddDomainServices();
 
 var app = builder.Build();
 

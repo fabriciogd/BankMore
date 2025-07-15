@@ -1,6 +1,6 @@
 ﻿using BankMore.Core.Domain.Primitives;
 
-namespace BankMore.Account.Application.Errors;
+namespace BankMore.Account.Domain.Errors;
 
 public class AuthenticationErrors
 {

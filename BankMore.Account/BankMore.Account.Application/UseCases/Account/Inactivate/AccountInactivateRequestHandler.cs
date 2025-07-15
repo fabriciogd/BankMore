@@ -1,5 +1,6 @@
-﻿using BankMore.Account.Application.Errors;
+﻿using BankMore.Account.Domain.Errors;
 using BankMore.Account.Domain.Repositories;
+using BankMore.Account.Domain.Services.Interfaces;
 using BankMore.Core.Domain.Primitives;
 using BankMore.Core.Domain.Resources;
 using BankMore.Core.Infraestructure.Contracts;
@@ -9,7 +10,8 @@ using Microsoft.Extensions.Logging;
 namespace BankMore.Account.Application.UseCases.Account.Inactivate;
 
 public sealed class AccountInactivateRequestHandler(
-    ICheckingAccountRepository repository, 
+    ICheckingAccountRepository repository,
+    ICheckingAccountService service,
     IUserIdentity userIdentity,
     ILogger<AccountInactivateRequestHandler> logger) : IRequestHandler<AccountInactivateRequest, Result<Unit>>
 {
@@ -17,25 +19,16 @@ public sealed class AccountInactivateRequestHandler(
     {
         logger.LogInformation(LogTemplate.StartHandler, nameof(AccountInactivateRequestHandler));
 
-        var account = await repository.GetByNumberAccountAsync(userIdentity.NumberAccount);
+        var checkingAccountResponse = await service.GetValidCheckingAccountAsync(userIdentity.NumberAccount);
 
-        if (account is null)
-        {
-            logger.LogWarning(LogTemplate.WarningHandler, nameof(AccountInactivateRequestHandler), AccountErrors.NotFound.Description);
+        if (!checkingAccountResponse.IsSuccess)
+            return checkingAccountResponse.Error;
 
-            return AccountErrors.NotFound;
-        }
+        var checkingAccount = checkingAccountResponse.Value;
 
-        if (!account.IsActive)
-        {
-            logger.LogWarning(LogTemplate.WarningHandler, nameof(AccountInactivateRequestHandler), AccountErrors.IsInactive.Description);
+        checkingAccount.Inactivate();
 
-            return AccountErrors.IsInactive;
-        }
-
-        account.Inactivate();
-
-        await repository.UpdateAsync(account);
+        await repository.UpdateAsync(checkingAccount);
 
         logger.LogInformation(LogTemplate.EndHandler, nameof(AccountInactivateRequestHandler), string.Empty);
 

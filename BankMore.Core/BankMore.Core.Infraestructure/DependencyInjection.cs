@@ -36,6 +36,7 @@ public static class DependencyInjection
     public static IServiceCollection AddIdempotencyService(this IServiceCollection services)
     {
         services.AddScoped<IIdempotencyService, RedisIdempotencyService>();
+        services.AddScoped<IIdempotency, Idempotency>();
 
         return services;
     }

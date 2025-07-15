@@ -14,7 +14,7 @@ internal class RedisIdempotencyService(IConnectionMultiplexer connection) : IIde
     {
         var redis = connection.GetDatabase();
 
-        var record = new Idempotency
+        var record = new IdempotencyCache
         {
             StatusCode = statusCode,
             ResponseBody = responseBody
@@ -33,7 +33,7 @@ internal class RedisIdempotencyService(IConnectionMultiplexer connection) : IIde
 
         if (data.IsNullOrEmpty) return (false, 0, null);
 
-        var parsed = JsonSerializer.Deserialize<Idempotency>(data);
+        var parsed = JsonSerializer.Deserialize<IdempotencyCache>(data);
 
         return (true, parsed.StatusCode, parsed.ResponseBody);
     }

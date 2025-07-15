@@ -8,13 +8,16 @@ public static class HttpClientRetryPolicyExtensions
     private const int RetryAttempts = 3;
     private const int RetryAttemptsInterval = 3;
 
-    public static async Task<HttpResponseMessage> PostWithRetryPolicyAsync(this HttpClient httpClient, string route, StringContent stringContent)
+    public static async Task<HttpResponseMessage> SendWithRetryPolicyAsync(
+        this HttpClient httpClient, 
+        HttpRequestMessage request, 
+        CancellationToken cancellationToken)
     {
         var retryPolicy = GetRetryPolicy();
 
-        var context = new Context(route);
+        var context = new Context(request.RequestUri.ToString());
 
-        return await retryPolicy.ExecuteAsync(x => httpClient.PostAsync(route, stringContent), context);
+        return await retryPolicy.ExecuteAsync(x => httpClient.SendAsync(request, cancellationToken), context);
     }
 
     private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()

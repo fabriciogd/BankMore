@@ -6,5 +6,8 @@ namespace BankMore.Transfer.Domain.External.Account;
 
 public interface IAccountMovementApiService
 {
-    Task<Result<AccoutMovementResponseApi>> RegisterMovementAsync(AccountMovementRequestApi request);
+    Task<Result<AccoutMovementResponseApi>> RegisterMovementAsync(
+        AccountMovementRequestApi request, 
+        string idempotencyKey, 
+        CancellationToken cancellationToken);
 }

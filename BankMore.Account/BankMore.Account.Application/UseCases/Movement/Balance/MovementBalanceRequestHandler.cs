@@ -1,5 +1,5 @@
-﻿using BankMore.Account.Application.Errors;
-using BankMore.Account.Domain.Repositories;
+﻿using BankMore.Account.Domain.Repositories;
+using BankMore.Account.Domain.Services.Interfaces;
 using BankMore.Core.Domain.Primitives;
 using BankMore.Core.Infraestructure.Contracts;
 using MediatR;
@@ -7,27 +7,26 @@ using MediatR;
 namespace BankMore.Account.Application.UseCases.Movement.Balance;
 
 public sealed class MovementBalanceRequestHandler(
-    ICheckingAccountRepository accountRepository,
+    ICheckingAccountService service,
     IMovementRepository movementRepository,
     IUserIdentity userIdentity
 ) : IRequestHandler<MovementBalanceRequest, Result<MovementBalanceResponse>>
 {
     public async Task<Result<MovementBalanceResponse>> Handle(MovementBalanceRequest request, CancellationToken cancellationToken)
     {
-        var account = await accountRepository.GetByNumberAccountAsync(userIdentity.NumberAccount);
+        var checkingAccountResponse = await service.GetValidCheckingAccountAsync(userIdentity.NumberAccount);
 
-        if (account is null)
-            return AccountErrors.NotFound;
+        if (!checkingAccountResponse.IsSuccess)
+            return checkingAccountResponse.Error;
 
-        if (!account.IsActive)
-            return AccountErrors.IsInactive;
+        var checkingAccount = checkingAccountResponse.Value;
 
-        var balance = await movementRepository.GetBalanceAsync(account.Id);
+        var balance = await movementRepository.GetBalanceAsync(checkingAccount.Id);
 
         return new MovementBalanceResponse()
         {
-            NumberAccount = account.NumberAccount,
-            Name = account.Name,
+            NumberAccount = checkingAccount.NumberAccount,
+            Name = checkingAccount.Name,
             Date = DateTime.Now,
             Balance = balance
         };

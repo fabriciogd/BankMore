@@ -1,15 +1,16 @@
-﻿using BankMore.Account.Application.Errors;
+﻿using BankMore.Account.Domain.Errors;
 using BankMore.Account.Domain.Constants;
 using BankMore.Account.Domain.Entities;
 using BankMore.Account.Domain.Repositories;
 using BankMore.Core.Domain.Primitives;
 using BankMore.Core.Infraestructure.Contracts;
 using MediatR;
+using BankMore.Account.Domain.Services.Interfaces;
 
 namespace BankMore.Account.Application.UseCases.Movement.Create;
 
 public sealed class MovementCreateRequestHandler(
-    ICheckingAccountRepository accountRepository,
+    ICheckingAccountService service,
     IMovementRepository movementRepository,
     IUserIdentity userIdentity) : IRequestHandler<MovementCreateRequest, Result<MovementCreateResponse>>
 {
@@ -23,25 +24,21 @@ public sealed class MovementCreateRequestHandler(
         if (numberAccount != userIdentity.NumberAccount && request.Type == MovementType.Debit)
             return MovementErrors.InvalidType;
 
-        var account = await accountRepository.GetByNumberAccountAsync(numberAccount);
+        var checkingAccountResponse = await service.GetValidCheckingAccountAsync(numberAccount);
 
-        if (account is null)
-            return AccountErrors.NotFound;
+        if (!checkingAccountResponse.IsSuccess)
+            return checkingAccountResponse.Error;
 
-        if (!account.IsActive)
-            return AccountErrors.IsInactive;
+        var checkingAccount = checkingAccountResponse.Value;
 
-        if (request.Value <= 0)
-            return MovementErrors.InvalidValue;
-
-        var movement = MovementAccount.Create(account.Id, request.Type, request.Value);
+        var movement = MovementAccount.Create(checkingAccount.Id, request.Type, request.Value);
 
         await movementRepository.AddAsync(movement, cancellationToken);
 
         return new MovementCreateResponse()
         {
-            CheckingAccountId = account.Id,
-            NumberAccount = account.NumberAccount,
+            CheckingAccountId = checkingAccount.Id,
+            NumberAccount = checkingAccount.NumberAccount,
             Type = request.Type,
             Value = request.Value,
         };

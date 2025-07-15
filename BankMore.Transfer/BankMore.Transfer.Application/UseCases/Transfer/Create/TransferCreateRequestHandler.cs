@@ -100,9 +100,9 @@ public sealed class TransferCreateRequestHandler(
 
         var transferEvent = new TransferEvent()
         {
-            CheckingAccountId = 1,
+            CheckingAccountId = transfer.SouceCheckingAccountId,
             Date = DateTime.Now,
-            Value = 1
+            Value = transfer.Value
         };
 
         await publisherEndpoint.PublishAsync("tariff-queue", new Body(transferEvent), cancellationToken);

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BankMore.Account.Application.UseCases.Account.Create;
 
-internal sealed class AccountCreateRequestHandler(ICheckingAccountRepository repository, ILogger<AccountCreateRequestHandler> logger)
+public sealed class AccountCreateRequestHandler(ICheckingAccountRepository repository, ILogger<AccountCreateRequestHandler> logger)
     : IRequestHandler<AccountCreateRequest, Result<AccountCreateResponse>>
 {
     public async Task<Result<AccountCreateResponse>> Handle(AccountCreateRequest request, CancellationToken cancellationToken)

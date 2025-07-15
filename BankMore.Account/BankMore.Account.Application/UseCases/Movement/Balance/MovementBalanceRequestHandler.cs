@@ -6,7 +6,7 @@ using MediatR;
 
 namespace BankMore.Account.Application.UseCases.Movement.Balance;
 
-internal sealed class MovementBalanceRequestHandler(
+public sealed class MovementBalanceRequestHandler(
     ICheckingAccountRepository accountRepository,
     IMovementRepository movementRepository,
     IUserIdentity userIdentity

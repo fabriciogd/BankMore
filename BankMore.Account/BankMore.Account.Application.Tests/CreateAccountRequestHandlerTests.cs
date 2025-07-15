@@ -1,4 +1,5 @@
-﻿using BankMore.Account.Application.UseCases.Account.Create;
+﻿using BankMore.Account.Application.Tests.Mock;
+using BankMore.Account.Application.UseCases.Account.Create;
 using BankMore.Account.Domain.Entities;
 using BankMore.Account.Domain.Repositories;
 using Microsoft.Extensions.Logging;
@@ -24,12 +25,7 @@ public class CreateAccountRequestHandlerTests
     public async Task Should_Return_Success_When_Request_Correct()
     {
         //Arrange
-        var request = new AccountCreateRequest()
-        {
-            Name = "Teste",
-            NationalDocument = "69808125050",
-            Password = "123"
-        };
+        var request = AccountCreateRequestMock.GetDefaultInstance();
 
         _repository
             .Setup(x => x.AddAsync(It.Is<CheckingAccount>(x => 

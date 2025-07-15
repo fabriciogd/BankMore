@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BankMore.Account.Application.UseCases.Account.Inactivate;
 
-internal sealed class AccountInactivateRequestHandler(
+public sealed class AccountInactivateRequestHandler(
     ICheckingAccountRepository repository, 
     IUserIdentity userIdentity,
     ILogger<AccountInactivateRequestHandler> logger) : IRequestHandler<AccountInactivateRequest, Result<Unit>>

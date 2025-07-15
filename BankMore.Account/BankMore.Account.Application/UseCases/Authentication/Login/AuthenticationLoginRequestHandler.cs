@@ -7,7 +7,7 @@ using MediatR;
 
 namespace BankMore.Account.Application.UseCases.Authentication.Login;
 
-internal sealed class AuthenticationLoginRequestHandler(
+public sealed class AuthenticationLoginRequestHandler(
     ICheckingAccountRepository _repository, 
     IJwtTokenGenerator tokenGenerator) : IRequestHandler<AuthenticationLoginRequest, Result<AuthenticationLoginResponse>>
 {

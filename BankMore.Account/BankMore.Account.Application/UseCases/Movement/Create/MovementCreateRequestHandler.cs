@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BankMore.Account.Application.UseCases.Movement.Create;
 
-internal sealed class MovementCreateRequestHandler(
+public sealed class MovementCreateRequestHandler(
     ICheckingAccountRepository accountRepository,
     IMovementRepository movementRepository,
     IUserIdentity userIdentity) : IRequestHandler<MovementCreateRequest, Result<MovementCreateResponse>>

@@ -12,7 +12,7 @@ using MediatR;
 
 namespace BankMore.Transfer.Application.UseCases.Transfer.Create;
 
-internal sealed class TransferCreateRequestHandler(
+public sealed class TransferCreateRequestHandler(
     IAccountMovementApiService accountMovementApiService,
     ITransferRepository transferRepository,
     IUserIdentity userIdentity,

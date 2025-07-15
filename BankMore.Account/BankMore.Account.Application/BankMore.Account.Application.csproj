@@ -17,8 +17,4 @@
     <ProjectReference Include="..\..\BankMore.Core\BankMore.Core.Infraestructure\BankMore.Core.Infraestructure.csproj" />
     <ProjectReference Include="..\BankMore.Account.Domain\BankMore.Account.Domain.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <InternalsVisibleTo Include="BankMore.Account.Application.Tests" />
-  </ItemGroup>
 </Project>
